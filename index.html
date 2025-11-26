@@ -413,7 +413,7 @@
 
     <script>
         // ============================================
-        // KONFIGURASI SUPABASE (WAJIB DIISI)
+        // KONFIGURASI SUPABASE
         // ============================================
         const SUPABASE_URL = 'https://orryroqxvlqaiejaxnng.supabase.co';
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9ycnlyb3F4dmxxYWllamF4bm5nIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTYyODczNDksImV4cCI6MjA3MTg2MzM0OX0.W1ncCBlqXxIsdAAzkeGHAcAhwDdnQfgSDT2jvXl_zOY';
@@ -423,7 +423,8 @@
         let currentUser = null;
 
         // Init Supabase if configured
-        if (SUPABASE_URL !== 'https://orryroqxvlqaiejaxnng.supabase.co' && typeof supabase !== 'undefined') {
+        // [FIX] Cek sederhana: Jika URL dan Key ada, maka init.
+        if (SUPABASE_URL && SUPABASE_KEY && typeof supabase !== 'undefined') {
             supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
             checkSession();
         } else {
