@@ -75,17 +75,21 @@ if (vCanvas) {
   vCanvas.addEventListener("click", (e) => handleCanvasClick(e));
 }
 
-// Listener Enter pada Password Input
+// Listener Enter pada Password Input (FIXED FOR MOBILE)
 document.addEventListener("DOMContentLoaded", () => {
   const passwordInput = document.getElementById("auth-password");
-  if (passwordInput) {
-    passwordInput.addEventListener("keypress", function (event) {
-      if (event.key === "Enter") {
-        event.preventDefault();
-        handleLogin();
-      }
-    });
-  }
+  const usernameInput = document.getElementById("auth-username");
+
+  // Helper untuk handle Enter
+  const handleEnter = (event) => {
+    if (event.key === "Enter" || event.keyCode === 13) {
+      event.preventDefault(); // PENTING: Mencegah submit form default/refresh
+      handleLogin();
+    }
+  };
+
+  if (passwordInput) passwordInput.addEventListener("keypress", handleEnter);
+  if (usernameInput) usernameInput.addEventListener("keypress", handleEnter);
 });
 
 // ============================================
@@ -226,7 +230,10 @@ function togglePasswordVisibility() {
   passwordInput.setAttribute("type", type);
 }
 
-async function handleLogin() {
+async function handleLogin(e) {
+  // Mencegah reload jika dipanggil dari form submit
+  if (e) e.preventDefault();
+
   const username = document.getElementById("auth-username").value;
   const password = document.getElementById("auth-password").value;
   const msg = document.getElementById("auth-msg");
@@ -257,7 +264,9 @@ async function handleLogin() {
   }
 }
 
-async function handleSignup() {
+async function handleSignup(e) {
+  if (e) e.preventDefault();
+
   const username = document.getElementById("auth-username").value;
   const password = document.getElementById("auth-password").value;
   const msg = document.getElementById("auth-msg");
